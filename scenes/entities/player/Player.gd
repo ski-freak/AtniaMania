@@ -32,10 +32,12 @@ func _physics_process(delta: float) -> void:
 	player_input()
 	change_state(current_state.update(delta))
 	$Label.text = str(current_state.get_name())
+	move_and_slide()
 	#default_move(delta)
 func gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity_value * delta
+		print("gravity: " , velocity)
 #func default_move(delta):
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta

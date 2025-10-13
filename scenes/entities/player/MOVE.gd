@@ -8,6 +8,6 @@ func update(delta):
 		return STATES.IDLE
 	if Player.velocity.y > 0:
 		return STATES.FALL
-	if Player.jump_input: # this is the same as saying if == true
+	if Player.jump_input_actuation: # this is the same as saying if == true
 		return STATES.JUMP
 	return null

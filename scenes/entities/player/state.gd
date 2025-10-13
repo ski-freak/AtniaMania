@@ -15,3 +15,5 @@ func player_movement():
 		Player.velocity.x = Player.SPEED
 	elif Player.movement_input.x < 0:
 		Player.velocity.x = - Player.SPEED
+	else:
+		Player.velocity.x = 0
