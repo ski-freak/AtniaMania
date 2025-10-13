@@ -14,7 +14,7 @@ var climb_input = false
 var dash_input = false
 
 # player_movement
-const SPEED = 300.0
+const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
 var last_direction = Vector2.RIGHT
 # mechanics
@@ -23,8 +23,11 @@ var can_dash = true
 # Sets the state variables to null so they can be used later?
 var current_state = null
 var prev_state = null
+
+# Nodes
 # Collects the states from the STATES.gd script and chucks them in a variable?
 @onready var STATES = $STATES
+@onready var Raycasts = $Raycasts
 
 
 func _ready():
@@ -39,11 +42,12 @@ func _physics_process(delta: float) -> void:
 	change_state(current_state.update(delta))
 	$Label.text = str(current_state.get_name())
 	move_and_slide()
+	print("player velocity: " , velocity)
 	#default_move(delta)
 func gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity_value * delta
-		print("gravity: " , velocity)
+
 #func default_move(delta):
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta
