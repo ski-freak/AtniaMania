@@ -2,5 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bpv0a68q8cwst" path="res://scenes/entities/player/DASH.gd" id="1_xmwri"]
 
-[node name="FALL" type="Node"]
+[node name="DASH" type="Node"]
 script = ExtResource("1_xmwri")
+
+[node name="DashDuration" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="DashDuration" to="." method="_on_timer_timeout"]

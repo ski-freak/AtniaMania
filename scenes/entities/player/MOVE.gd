@@ -10,4 +10,8 @@ func update(delta):
 		return STATES.FALL
 	if Player.jump_input_actuation: # this is the same as saying if == true
 		return STATES.JUMP
+	if Player.dash_input and Player.can_dash:
+		return STATES.DASH
 	return null
+func enter_state():
+	Player.can_dash = true
