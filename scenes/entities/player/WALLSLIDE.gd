@@ -5,7 +5,12 @@ extends "state.gd"
 
 func update(delta):
 	slide_movement(delta)
-	return null
+	if Player.get_next_to_wall() == null:
+		return STATES.FALL
+	if Player.jump_input_actuation:
+		return STATES.JUMP
+	if Player.is_on_floor():
+		return STATES.IDLE
 
 func slide_movement(delta):
 	pass
@@ -15,5 +20,6 @@ func slide_movement(delta):
 		elif Player.movement_input.y > 0:
 			Player.velocity.y = climb_speed
 	else:
+		player_movement() # Player movement should maybe be run after gravity? This should be made consistent across all states at some point maybe?
 		Player.gravity(delta)
 		Player.velocity.y *= slide_friction

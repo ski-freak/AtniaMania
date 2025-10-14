@@ -6,7 +6,7 @@ extends Node
 @onready var FALL = $FALL
 # Not added yet
 @onready var DASH = $DASH
-#@onready var SLIDE = $SLIDE
+@onready var WALLSLIDE = $WALLSLIDE
 #@onready var CLIMB = $CLIMB
 
 # Called when the node enters the scene tree for the first time.

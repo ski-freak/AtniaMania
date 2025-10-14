@@ -53,8 +53,17 @@ func gravity(delta):
 		#velocity += get_gravity() * delta
 #
 	## Handle jump.
-	#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	#if Input.ic_action_just_pressed("ui_accept") and is_on_floor():
 		#velocity.y = JUMP_VELOCITY
+func get_next_to_wall():
+	for raycast in Raycasts.get_children():
+		raycast.force_raycast_update()
+		if raycast.is_colliding():
+			if raycast.target_position.x > 0:
+				return Vector2.RIGHT
+			else:
+				return Vector2.LEFT
+	return null
 #
 	## Get the input direction and handle the movement/deceleration.
 	## As good practice, you should replace UI actions with custom gameplay actions.
