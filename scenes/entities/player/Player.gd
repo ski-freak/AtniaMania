@@ -118,6 +118,3 @@ func player_input():
 	else:
 		dash_input  = false
 	
-
-# not wanting to work on the card game
-# kind of wanting to actually work on the thing
