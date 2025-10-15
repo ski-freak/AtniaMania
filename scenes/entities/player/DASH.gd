@@ -3,8 +3,8 @@ extends "state.gd"
 var dash_direction = Vector2.ZERO
 var dash_speed = 400
 var dashing = false
-@export var dash_duration = 0.2
-@onready var DashDuration_timer = $DashDuration
+@export var dash_duration = 0.15 # Determines how long the dash is
+@onready var DashDuration_timer = $DashDuration # we use the dash_duration as an argument for this to set the duration to what we want
 
 func update(delta):
 	if !dashing: # this means if it's = false

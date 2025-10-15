@@ -19,6 +19,8 @@ func slide_movement(delta):
 			Player.velocity.y = -climb_speed
 		elif Player.movement_input.y > 0:
 			Player.velocity.y = climb_speed
+		else:
+			Player.velocity.y = 0
 	else:
 		player_movement() # Player movement should maybe be run after gravity? This should be made consistent across all states at some point maybe?
 		Player.gravity(delta)
