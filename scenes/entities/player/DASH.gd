@@ -28,7 +28,7 @@ func enter_state():
 
 func exit_state():
 	dashing = false
-	Player.get_node("PlayerSprite2D").modulate = Color(1, 1, 1)
+	Player.get_node("PlayerSprite2D").modulate = Color(0.5, 1.0, 1.0)
   # back to normal
 func _on_timer_timeout() -> void:
 	Player.velocity = dash_end_velocity
