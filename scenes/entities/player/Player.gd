@@ -15,7 +15,7 @@ var dash_input = false
 
 # player_movement
 const SPEED = 200.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -300.0
 var last_direction = Vector2.RIGHT
 # mechanics
 var can_dash = true

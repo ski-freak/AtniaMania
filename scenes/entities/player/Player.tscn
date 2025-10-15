@@ -15,7 +15,7 @@
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_tlaso")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="PlayerSprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("2_afppm")
 
