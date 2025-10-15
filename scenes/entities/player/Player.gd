@@ -86,7 +86,10 @@ func change_state(input_state):
 
 # Turns the player inputs into movement of the character?
 func player_input():
+	# Reset
 	movement_input = Vector2.ZERO
+
+	# Keyboard / D-pad digital input
 	if Input.is_action_pressed("MoveRight"):
 		movement_input.x += 1
 	if Input.is_action_pressed("MoveLeft"):
@@ -95,26 +98,24 @@ func player_input():
 		movement_input.y -= 1
 	if Input.is_action_pressed("MoveDown"):
 		movement_input.y += 1
-	
-	# jumps
-	if Input.is_action_pressed("Jump"):
-		jump_input = true
-	else:
-		jump_input  = false
-	if Input.is_action_just_pressed("Jump"):
-		jump_input_actuation = true
-	else:
-		jump_input_actuation  = false
-	
-	# climb
-	if Input.is_action_pressed("Climb"):
-		climb_input = true
-	else:
-		climb_input  = false
-	
-	# dash
-	if Input.is_action_just_pressed("Dash"):
-		dash_input = true
-	else:
-		dash_input  = false
-	
+
+	# --- Add this section for analog stick ---
+	var left_stick = Vector2(
+		Input.get_joy_axis(0, JOY_AXIS_LEFT_X),
+		Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+	)
+
+	# Deadzone to prevent drift
+	if left_stick.length() > 0.2:
+		movement_input = left_stick
+
+	# Normalize for consistent direction magnitude
+	if movement_input != Vector2.ZERO:
+		movement_input = movement_input.normalized()
+		#last_direction = movement_input
+
+	# --- Other inputs ---
+	jump_input = Input.is_action_pressed("Jump")
+	jump_input_actuation = Input.is_action_just_pressed("Jump")
+	climb_input = Input.is_action_pressed("Climb")
+	dash_input = Input.is_action_just_pressed("Dash")
