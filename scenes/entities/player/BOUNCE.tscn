@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dy8qi8mxymlr0"]
+
+[ext_resource type="Script" uid="uid://c6np3bvbbpas2" path="res://scenes/entities/player/BOUNCE.gd" id="1_tnkqp"]
+
+[node name="BOUNCE" type="Node"]
+script = ExtResource("1_tnkqp")
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
