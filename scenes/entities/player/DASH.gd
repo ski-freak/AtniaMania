@@ -1,9 +1,9 @@
 extends "state.gd"
 
 var dash_direction = Vector2.ZERO
-var dash_speed = 400
+@export var dash_speed = 400
 var dashing = false
-var dash_end_speed = 200
+@export var dash_end_speed = 200
 var dash_end_velocity = Vector2.ZERO
 
 @export var dash_duration_frames = 15 # Determines how long the dash is
