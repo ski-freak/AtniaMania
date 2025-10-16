@@ -64,16 +64,7 @@ func get_next_to_wall():
 			else:
 				return Vector2.LEFT
 	return null
-#
-	## Get the input direction and handle the movement/deceleration.
-	## As good practice, you should replace UI actions with custom gameplay actions.
-	#var direction := Input.get_axis("ui_left", "ui_right")
-	#if direction:
-		#velocity.x = direction * SPEED
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, SPEED)
-#
-	#move_and_slide()
+
 
 # Shuffles the states around so that you are in the correct one?
 func change_state(input_state):

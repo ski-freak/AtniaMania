@@ -5,17 +5,23 @@ var dash_speed = 400
 var dashing = false
 var dash_end_speed = 200
 var dash_end_velocity = Vector2.ZERO
-@export var dash_duration = 0.15 # Determines how long the dash is
-@onready var DashDuration_timer = $DashDuration # we use the dash_duration as an argument for this to set the duration to what we want
+
+@export var dash_duration_frames = 15 # Determines how long the dash is
+var dash_frame_counter = 0 # Used to ensure the dash lasts the correct amount of time.
+
 
 func update(delta):
-	if !dashing: # this means if it is = false
+	# Increment frame counter, then when it reaches the final frame leave the state.
+	dash_frame_counter += 1
+	if dash_frame_counter >= dash_duration_frames:
+		Player.velocity = dash_end_velocity
+		dashing = false
 		return STATES.FALL
 	return null
 func enter_state():
 	Player.can_dash = false
 	dashing = true
-	DashDuration_timer.start(dash_duration)
+	dash_frame_counter = 0 # Reset counter each time dash starts
 	if Player.movement_input != Vector2.ZERO:
 		dash_direction = Player.movement_input
 	else:
@@ -30,7 +36,3 @@ func exit_state():
 	dashing = false
 	Player.get_node("PlayerSprite2D").modulate = Color(0.5, 1.0, 1.0)
   # back to normal
-func _on_timer_timeout() -> void:
-	Player.velocity = dash_end_velocity
-	dashing = false
-	pass
