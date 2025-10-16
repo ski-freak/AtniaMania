@@ -1,9 +1,5 @@
 extends CharacterBody2D
 
-
-
-
-# (this came with NPC's godot default file but not mine) Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # player input
@@ -17,6 +13,7 @@ var dash_input = false
 const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 var last_direction = Vector2.RIGHT
+var ground_acceleration: float = 34
 # mechanics
 var can_dash = true
 #states
@@ -42,19 +39,12 @@ func _physics_process(delta: float) -> void:
 	change_state(current_state.update(delta))
 	$Label.text = str(current_state.get_name())
 	move_and_slide()
-	print("player velocity: " , velocity)
+#	print("player velocity: " , velocity)
 	#default_move(delta)
 func gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity_value * delta
 
-#func default_move(delta):
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-#
-	## Handle jump.
-	#if Input.ic_action_just_pressed("ui_accept") and is_on_floor():
-		#velocity.y = JUMP_VELOCITY
 func get_next_to_wall():
 	for raycast in Raycasts.get_children():
 		raycast.force_raycast_update()
