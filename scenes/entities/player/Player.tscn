@@ -13,8 +13,12 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xf0fo"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("Wallslide_Raycasts", "TopRay_Right", "TopRay_Left", "TopRay_Middle")]
 script = ExtResource("1_tlaso")
+Wallslide_Raycasts = NodePath("All_Raycasts/Wallslide_Raycasts")
+TopRay_Right = NodePath("All_Raycasts/Top_Raycasts/TopRight")
+TopRay_Left = NodePath("All_Raycasts/Top_Raycasts/TopLeft")
+TopRay_Middle = NodePath("All_Raycasts/Top_Raycasts/TopMiddle")
 
 [node name="PlayerSprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.16, 0.16)
@@ -50,24 +54,46 @@ offset_right = 20.0
 offset_bottom = -11.0
 text = "STATE"
 
-[node name="Raycasts" type="Node2D" parent="."]
+[node name="All_Raycasts" type="Node2D" parent="."]
 
-[node name="TopRight" type="RayCast2D" parent="Raycasts"]
+[node name="Wallslide_Raycasts" type="Node2D" parent="All_Raycasts"]
+
+[node name="TopRight" type="RayCast2D" parent="All_Raycasts/Wallslide_Raycasts"]
 position = Vector2(0, -10)
 target_position = Vector2(13, 0)
 collision_mask = 2
 
-[node name="BottomRight" type="RayCast2D" parent="Raycasts"]
+[node name="BottomRight" type="RayCast2D" parent="All_Raycasts/Wallslide_Raycasts"]
 position = Vector2(0, 10)
 target_position = Vector2(13, 0)
 collision_mask = 2
 
-[node name="BottomLeft" type="RayCast2D" parent="Raycasts"]
+[node name="BottomLeft" type="RayCast2D" parent="All_Raycasts/Wallslide_Raycasts"]
 position = Vector2(0, 10)
 target_position = Vector2(-13, 0)
 collision_mask = 2
 
-[node name="TopLeft" type="RayCast2D" parent="Raycasts"]
+[node name="TopLeft" type="RayCast2D" parent="All_Raycasts/Wallslide_Raycasts"]
 position = Vector2(0, -10)
 target_position = Vector2(-13, 0)
+collision_mask = 2
+
+[node name="Top_Raycasts" type="Node2D" parent="All_Raycasts"]
+
+[node name="TopMiddle" type="RayCast2D" parent="All_Raycasts/Top_Raycasts"]
+position = Vector2(0, -7)
+rotation = 3.1415927
+target_position = Vector2(0, 10)
+collision_mask = 2
+
+[node name="TopLeft" type="RayCast2D" parent="All_Raycasts/Top_Raycasts"]
+position = Vector2(-10, -7)
+rotation = 3.1415927
+target_position = Vector2(0, 10)
+collision_mask = 2
+
+[node name="TopRight" type="RayCast2D" parent="All_Raycasts/Top_Raycasts"]
+position = Vector2(10, -7)
+rotation = 3.1415927
+target_position = Vector2(0, 10)
 collision_mask = 2

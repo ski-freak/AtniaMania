@@ -29,7 +29,12 @@ var jump_buffer_counter = 0
 # Nodes
 # Collects the states from the STATES.gd script and chucks them in a variable?
 @onready var STATES = $STATES
-@onready var Raycasts = $Raycasts
+@export var Wallslide_Raycasts: Node2D
+
+
+@export var TopRay_Right: Node2D
+@export var TopRay_Left: Node2D
+@export var TopRay_Middle: Node2D
 
 
 func _ready():
@@ -39,24 +44,24 @@ func _ready():
 	prev_state = STATES.IDLE
 	current_state = STATES.IDLE
 func _physics_process(delta: float) -> void:
-	# Adds the gravity in default_move (this was written by godot).
 	player_input()
 	change_state(current_state.update(delta))
 	$Label.text = str(current_state.get_name())
 	move_and_slide()
-#	print("player velocity: " , velocity)
-	#default_move(delta)
 func gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity_value * delta
 
 func get_next_to_wall():
-	for raycast in Raycasts.get_children():
+	for raycast in Wallslide_Raycasts.get_children():
 		raycast.force_raycast_update()
 		if raycast.is_colliding():
 			if raycast.target_position.x > 0:
+				#print ("wallslide raycast right")
 				return Vector2.RIGHT
+
 			else:
+				#print ("wallslide raycast left")
 				return Vector2.LEFT
 	return null
 
@@ -110,3 +115,16 @@ func player_input():
 		jump_buffer_counter = jump_buffer_frames
 	elif jump_buffer_counter > 0:
 		jump_buffer_counter -= 1
+
+func upward_corner_correction(amount: int):
+	var delta = get_physics_process_delta_time()
+	if velocity.y < 0 and test_move(global_transform,
+	Vector2(0, velocity.y*delta)):
+		# i says how far the corner is, j says whether it is right or left of player
+		for i in range(1, amount*2+1):
+			for j in [-1.0, 1.0]:
+				if !test_move(global_transform.translated(Vector2(i*j/2, 0)),
+				Vector2(0, velocity.y*delta)):
+					translate(Vector2(i*j/2, 0))
+					if velocity.x * j < 0: velocity.x = 0
+					return
