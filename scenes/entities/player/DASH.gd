@@ -17,6 +17,7 @@ func update(delta):
 		Player.velocity = dash_end_velocity
 		dashing = false
 		return STATES.FALL
+	Player.upward_corner_correction(7)
 	return null
 func enter_state():
 	Player.can_dash = false

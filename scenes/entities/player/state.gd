@@ -19,4 +19,4 @@ func player_movement():
 		Player.last_direction = Vector2.LEFT
 	else:
 		Player.velocity.x = 0
-	Player.upward_corner_correction(6)
+	Player.upward_corner_correction(7)
