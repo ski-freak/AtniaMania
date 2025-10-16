@@ -21,6 +21,11 @@ var can_dash = true
 var current_state = null
 var prev_state = null
 
+# Buffering
+var jump_buffer_frames = 5
+var jump_buffer_counter = 0
+
+
 # Nodes
 # Collects the states from the STATES.gd script and chucks them in a variable?
 @onready var STATES = $STATES
@@ -80,7 +85,7 @@ func player_input():
 	if Input.is_action_pressed("MoveDown"):
 		movement_input.y += 1
 
-	# --- Add this section for analog stick ---
+	# Analog stick only?
 	var left_stick = Vector2(
 		Input.get_joy_axis(0, JOY_AXIS_LEFT_X),
 		Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
@@ -100,3 +105,8 @@ func player_input():
 	jump_input_actuation = Input.is_action_just_pressed("Jump")
 	climb_input = Input.is_action_pressed("Climb")
 	dash_input = Input.is_action_just_pressed("Dash")
+	# Handle jump buffering
+	if jump_input_actuation:
+		jump_buffer_counter = jump_buffer_frames
+	elif jump_buffer_counter > 0:
+		jump_buffer_counter -= 1

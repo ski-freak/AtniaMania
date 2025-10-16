@@ -4,8 +4,3 @@
 
 [node name="FALL" type="Node"]
 script = ExtResource("1_qnp1a")
-
-[node name="CoyoteTimer" type="Timer" parent="."]
-wait_time = 0.1
-
-[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]

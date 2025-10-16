@@ -1,32 +1,35 @@
 extends "state.gd"
 
-@onready var CoyoteTimer = $CoyoteTimer
-@export var coyote_duration = 0.1
+@export var coyote_frames = 5
 
 var can_jump = true
+var coyote_counter = 0
 
 func update(delta):
 	Player.gravity(delta)
 	player_movement()
+
+	# Decrease coyote time each frame
+	if can_jump and not Player.is_on_floor():
+		coyote_counter -= 1
+		if coyote_counter <= 0:
+			can_jump = false
+
+	# Change to other states
 	if Player.is_on_floor():
 		return STATES.IDLE
-	if Player.dash_input and Player.can_dash: # this is if true
+	if Player.dash_input and Player.can_dash:
 		return STATES.DASH
 	if Player.get_next_to_wall() != null:
 		return STATES.WALLSLIDE
-	if Player.jump_input_actuation and can_jump:
+	if Player.jump_input and can_jump and Player.jump_buffer_counter > 0:
 		return STATES.JUMP
 	return null
 
+
 func enter_state():
-	if Player.prev_state == STATES.IDLE or Player.prev_state == STATES.MOVE or Player.prev_state == STATES.WALLSLIDE:
+	if Player.prev_state in [STATES.IDLE, STATES.MOVE, STATES.WALLSLIDE]:
 		can_jump = true
-		CoyoteTimer.start(coyote_duration)
+		coyote_counter = coyote_frames
 	else:
 		can_jump = false
-
-	pass
-
-
-func _on_coyote_timer_timeout() -> void:
-	can_jump = false
