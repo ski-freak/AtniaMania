@@ -1,6 +1,6 @@
 extends "state.gd"
 
-var min_shorthop_frames = 5
+var min_shorthop_frames = 6
 var jump_frame_countdown = 0
 
 func update(delta):
