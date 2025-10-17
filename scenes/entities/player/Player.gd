@@ -14,6 +14,14 @@ const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 var last_direction = Vector2.RIGHT
 var ground_acceleration: float = 34
+@export_category("Movement Parameters")
+@export var player_gravity_value = 980.0
+@export var Jump_Peak_Time: float = 0.5
+@export var Jump_Fall_Time: float = 0.5
+@export var Jump_Height: float = 2.0
+@export var Jump_Distance: float = 4.0
+var Jump_Velocity: float = 5.0
+
 # mechanics
 var can_dash = true
 #states
@@ -50,7 +58,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 func gravity(delta):
 	if not is_on_floor():
-		velocity.y += gravity_value * delta
+		velocity.y += player_gravity_value * delta
 
 func get_next_to_wall():
 	for raycast in Wallslide_Raycasts.get_children():
