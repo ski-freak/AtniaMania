@@ -17,8 +17,8 @@ var last_direction = Vector2.RIGHT
 #var ground_acceleration: float = 34
 @export_category("Movement Parameters")
 #@export var player_gravity_value = 980.0
-@export var Jump_Peak_Time: float = 0.33
-@export var Jump_Fall_Time: float = 0.33
+@export var Jump_Peak_Time: float = 0.33 #0.33
+@export var Jump_Fall_Time: float = 0.28
 @export var Jump_Height: float = 66.0
 @export var Speed: float = 200.0
 #@export var Jump_Distance: float = 120.0
@@ -59,9 +59,10 @@ func _ready():
 	current_state = STATES.IDLE
 	
 func Calculate_Movement_Parameters() -> void:
-	Jump_Gravity = (2 * Jump_Height) / pow(Jump_Peak_Time, 2)
-	Fall_Gravity = (2 * Jump_Height) / pow(Jump_Fall_Time, 2)
-	Jump_Velocity = -(Jump_Gravity * Jump_Peak_Time)
+	Jump_Gravity = round((2 * Jump_Height) / pow(Jump_Peak_Time, 2))
+	Fall_Gravity = round((2 * Jump_Height) / pow(Jump_Fall_Time, 2))
+	Jump_Velocity = round(-(Jump_Gravity * Jump_Peak_Time))
+	print("Jump_Gravity: ", Jump_Gravity, " Fall_Gravity: ",Fall_Gravity, " Jump_Velocity: ",Jump_Velocity)
 #	Jump_Distance = Speed * (Jump_Peak_Time + Jump_Fall_Time)
 
 func _physics_process(delta: float) -> void:
@@ -71,10 +72,11 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 func gravity(delta):
 	if not is_on_floor():
-		if velocity.y>0:
+		if velocity.y<0:
 			velocity.y += Jump_Gravity * delta
 		else:
 			velocity.y += Fall_Gravity * delta
+		print(velocity.y)
 
 func get_next_to_wall():
 	for raycast in Wallslide_Raycasts.get_children():
