@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="AtniaMania"
-run/main_scene="uid://74ahveu7av0s"
+run/main_scene="uid://du1xbmip13u81"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 

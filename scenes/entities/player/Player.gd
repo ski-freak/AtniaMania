@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-var gravity_value = ProjectSettings.get_setting("physics/2d/default_gravity")
+var Jump_Gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var Fall_Gravity: float =  980
 
 # player input
 var movement_input = Vector2.ZERO
@@ -10,16 +11,17 @@ var climb_input = false
 var dash_input = false
 
 # player_movement
-const SPEED = 200.0
-const JUMP_VELOCITY = -300.0
+#const SPEED = 200.0
+#const JUMP_VELOCITY = -300.0
 var last_direction = Vector2.RIGHT
-var ground_acceleration: float = 34
+#var ground_acceleration: float = 34
 @export_category("Movement Parameters")
-@export var player_gravity_value = 980.0
-@export var Jump_Peak_Time: float = 0.5
-@export var Jump_Fall_Time: float = 0.5
-@export var Jump_Height: float = 2.0
-@export var Jump_Distance: float = 4.0
+#@export var player_gravity_value = 980.0
+@export var Jump_Peak_Time: float = 0.2
+@export var Jump_Fall_Time: float = 0.2
+@export var Jump_Height: float = 70.0
+@export var Jump_Distance: float = 100.0
+var Speed: float = 5.0
 var Jump_Velocity: float = 5.0
 
 # mechanics
@@ -45,12 +47,21 @@ var jump_buffer_counter = 0
 @export var TopRay_Middle: Node2D
 
 
+
+
 func _ready():
+	Calculate_Movement_Parameters()
 	for state in STATES.get_children():
 		state.STATES = STATES
 		state.Player = self
 	prev_state = STATES.IDLE
 	current_state = STATES.IDLE
+	
+func Calculate_Movement_Parameters()->void:
+	Jump_Gravity = (2*Jump_Height)/pow(Jump_Peak_Time,2)
+	Fall_Gravity = (2*Jump_Height)/pow(Jump_Fall_Time,2)
+	Jump_Velocity = -(Jump_Gravity * Jump_Peak_Time)
+	Speed = Jump_Distance/(Jump_Peak_Time+Jump_Fall_Time)
 func _physics_process(delta: float) -> void:
 	player_input()
 	change_state(current_state.update(delta))
@@ -58,7 +69,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 func gravity(delta):
 	if not is_on_floor():
-		velocity.y += player_gravity_value * delta
+		if velocity.y>0:
+			velocity.y += Jump_Gravity * delta
+		else:
+			velocity.y += Fall_Gravity * delta
 
 func get_next_to_wall():
 	for raycast in Wallslide_Raycasts.get_children():

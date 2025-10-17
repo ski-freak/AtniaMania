@@ -10,6 +10,6 @@ func update(delta):
 		return STATES.DASH
 	return null
 func enter_state():
-	Player.velocity.y = Player.JUMP_VELOCITY # this reaches into the Player script and edits its y velocity
+	Player.velocity.y = Player.Jump_Velocity # this reaches into the Player script and edits its y velocity
 	
 	
