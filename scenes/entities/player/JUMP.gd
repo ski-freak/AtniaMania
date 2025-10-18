@@ -6,7 +6,7 @@ var jump_frame_countdown = 0
 func update(delta):
 	jump_frame_countdown -= 1
 	jump_gravity(delta)
-	player_movement()
+	player_air_movement()
 	if Player.velocity.y >0:
 		return STATES.FALL
 	if Player.dash_input and Player.can_dash:
