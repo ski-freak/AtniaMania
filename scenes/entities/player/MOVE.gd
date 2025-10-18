@@ -14,5 +14,6 @@ func update(delta):
 		return STATES.DASH
 	return null
 func enter_state():
+	print("MOVE STATE")
 	Player.can_dash = true
 	Player.get_node("PlayerSprite2D").modulate = Color(1, 1, 1)

@@ -1,11 +1,11 @@
 extends "state.gd"
 
 var dash_direction = Vector2.ZERO
-@export var dash_speed = 500
+@export var dash_speed = 530
 var dashing = false
-@export var dash_end_speed = 200
+@export var dash_end_speed = 350
+@export var DashExitUpMult: float = 0.75
 var dash_end_velocity = Vector2.ZERO
-
 @export var dash_duration_frames = 15 # Determines how long the dash is
 var dash_frame_counter = 0 # Used to ensure the dash lasts the correct amount of time.
 
@@ -15,11 +15,17 @@ func update(delta):
 	dash_frame_counter += 1
 	if dash_frame_counter >= dash_duration_frames:
 		Player.velocity = dash_end_velocity
+		if Player.velocity.y < 0:
+			Player.velocity.y = Player.velocity.y * DashExitUpMult
 		dashing = false
-		return STATES.FALL
+		if Player.is_on_floor():
+			return STATES.MOVE
+		else:
+			return STATES.FALL
 	Player.upward_corner_correction(7)
 	return null
 func enter_state():
+	print("DASH STATE")
 	Player.can_dash = false
 	dashing = true
 	dash_frame_counter = 0 # Reset counter each time dash starts

@@ -7,7 +7,7 @@ extends "state.gd"
 
 func update(delta):
 	Player.gravity(delta)
-	player_movement()
+	player_air_movement()
 	if Player.is_on_floor():
 		return STATES.IDLE
 	if Player.dash_input and Player.can_dash: # this is if true
@@ -19,6 +19,7 @@ func update(delta):
 	return null
 
 func enter_state():
+	print("BOUNCE STATE")
 	if Player.bounce_velocity != Vector2.ZERO:
 		Player.velocity = Player.bounce_velocity
 		Player.bounce_velocity = Vector2.ZERO

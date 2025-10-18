@@ -1,6 +1,6 @@
 extends "state.gd"
 
-var min_shorthop_frames = 6
+var min_shorthop_frames = 5
 var jump_frame_countdown = 0
 
 func update(delta):
@@ -13,7 +13,12 @@ func update(delta):
 		return STATES.DASH
 	return null
 func enter_state():
+	print("JUMP STATE")
 	Player.velocity.y = Player.Jump_Velocity # this reaches into the Player script and edits its y velocity
+	if Player.velocity.x >0 and Player.movement_input.x > 0:
+		Player.velocity.x += Player.Jump_xSpeed
+	elif Player.velocity.x <0 and Player.movement_input.x < 0:
+		Player.velocity.x -= Player.Jump_xSpeed	
 	jump_frame_countdown = min_shorthop_frames
 	print(Player.Jump_Velocity)
 	
@@ -24,4 +29,4 @@ func jump_gravity(delta):
 		elif Player.velocity.y<0 and (Player.jump_input or jump_frame_countdown > 0):
 			Player.velocity.y += Player.Jump_Gravity * delta
 		else:
-			Player.velocity.y += Player.Fall_Gravity * delta
+			Player.velocity.y += Player.Jump_Gravity * 3 * delta

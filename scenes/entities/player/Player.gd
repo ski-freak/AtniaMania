@@ -18,9 +18,16 @@ var last_direction = Vector2.RIGHT
 @export_category("Movement Parameters")
 #@export var player_gravity_value = 980.0
 @export var Jump_Peak_Time: float = 0.33 #0.33
-@export var Jump_Fall_Time: float = 0.28
+@export var Jump_Fall_Time: float = 0.26
 @export var Jump_Height: float = 66.0
 @export var Speed: float = 200.0
+@export var Jump_xSpeed: float = 80.0
+@export var Max_Fall_Speed: float = 520.0
+@export var Ground_Accel: float = 34.0
+@export var Ground_Friction: float = 67.0
+@export var Air_Accel: float = 17.0
+@export var Air_Friction: float = 34.0
+@export var Air_Lowered_Friction: float = 17.0
 #@export var Jump_Distance: float = 120.0
 #var Speed: float = 5.0
 var Jump_Velocity: float = 5.0
@@ -67,6 +74,7 @@ func Calculate_Movement_Parameters() -> void:
 
 func _physics_process(delta: float) -> void:
 	player_input()
+	print("VELOCITY X: ", velocity.x , " VELOCITY Y: ", velocity.y)
 	change_state(current_state.update(delta))
 	$Label.text = str(current_state.get_name())
 	move_and_slide()
@@ -74,9 +82,9 @@ func gravity(delta):
 	if not is_on_floor():
 		if velocity.y<0:
 			velocity.y += Jump_Gravity * delta
-		else:
-			velocity.y += Fall_Gravity * delta
-		print(velocity.y)
+		elif velocity.y<Max_Fall_Speed:
+			velocity.y = min(velocity.y + (Fall_Gravity * delta), Max_Fall_Speed)
+		#print(velocity.y)
 
 func get_next_to_wall():
 	for raycast in Wallslide_Raycasts.get_children():
