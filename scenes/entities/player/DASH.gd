@@ -19,7 +19,10 @@ func update(delta):
 			Player.velocity.y = Player.velocity.y * DashExitUpMult
 		dashing = false
 		if Player.is_on_floor():
-			return STATES.MOVE
+			if Player.slide_input and Player.slide_input_lock == false:
+				return STATES.SLIDE
+			else:
+				return STATES.MOVE
 		else:
 			return STATES.FALL
 	Player.upward_corner_correction(7)

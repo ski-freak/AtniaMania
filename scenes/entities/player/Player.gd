@@ -9,6 +9,9 @@ var jump_input = false
 var jump_input_actuation = false
 var climb_input = false
 var dash_input = false
+var slide_input = false
+var slide_input_actuation = false
+var slide_input_lock = false
 
 # player_movement
 #const SPEED = 200.0
@@ -26,7 +29,7 @@ var last_direction = Vector2.RIGHT
 @export var Ground_Accel: float = 34.0
 @export var Ground_Friction: float = 67.0
 @export var Air_Accel: float = 16.0
-@export var Air_Friction: float = 28.0
+@export var Air_Friction: float = 24.0
 @export var Air_Lowered_Friction: float = 6.0
 #@export var Jump_Distance: float = 120.0
 #var Speed: float = 5.0
@@ -42,7 +45,8 @@ var prev_state = null
 # Buffering
 var jump_buffer_frames = 5
 var jump_buffer_counter = 0
-
+var slide_buffer_frames = 5
+var slide_buffer_counter = 0
 
 # Nodes
 # Collects the states from the STATES.gd script and chucks them in a variable?
@@ -144,11 +148,17 @@ func player_input():
 	jump_input_actuation = Input.is_action_just_pressed("Jump")
 	climb_input = Input.is_action_pressed("Climb")
 	dash_input = Input.is_action_just_pressed("Dash")
+	slide_input = Input.is_action_pressed("Slide")
+	slide_input_actuation = Input.is_action_just_pressed("Slide")
 	# Handle jump buffering
 	if jump_input_actuation:
 		jump_buffer_counter = jump_buffer_frames
 	elif jump_buffer_counter > 0:
 		jump_buffer_counter -= 1
+	# Handle slide lock
+	if slide_input_actuation:
+		slide_input_lock = false
+
 
 func upward_corner_correction(amount: int):
 	var delta = get_physics_process_delta_time()

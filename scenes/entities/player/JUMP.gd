@@ -14,10 +14,11 @@ func update(delta):
 	return null
 func enter_state():
 	print("JUMP STATE")
+	Player.can_dash = true
 	Player.velocity.y = Player.Jump_Velocity # this reaches into the Player script and edits its y velocity
-	if Player.velocity.x >0 and Player.movement_input.x > 0:
+	if Player.movement_input.x > 0: # Player.velocity.x >0 and 
 		Player.velocity.x += Player.Jump_xSpeed
-	elif Player.velocity.x <0 and Player.movement_input.x < 0:
+	elif Player.movement_input.x < 0: # Player.velocity.x <0 and 
 		Player.velocity.x -= Player.Jump_xSpeed	
 	jump_frame_countdown = min_shorthop_frames
 	print(Player.Jump_Velocity)

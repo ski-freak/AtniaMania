@@ -4,10 +4,10 @@ extends Node
 @onready var MOVE = $MOVE
 @onready var JUMP = $JUMP
 @onready var FALL = $FALL
-# Not added yet
 @onready var DASH = $DASH
 @onready var WALLSLIDE = $WALLSLIDE
 @onready var BOUNCE = $BOUNCE
+@onready var SLIDE = $SLIDE
 #@onready var CLIMB = $CLIMB
 
 # Called when the node enters the scene tree for the first time.
